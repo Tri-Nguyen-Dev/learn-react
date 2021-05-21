@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, fetchTodo } from "./redux/todoSlice";
+
 
 function App() {
+  const todos = useSelector(state => state.todos.todos)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchTodo())
+  }, [dispatch])
+
+
+  function handleAddTodo() {
+    dispatch(addTodo('JAVA'))
+  }
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={handleAddTodo}>Thêm</button>
+      <ul>
+        {todos.map((todo, index) => {
+          return (
+            <li key={index}>{todo.title}</li>
+          )
+        })}
+      </ul>
     </div>
   );
 }
